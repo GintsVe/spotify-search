@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const SPOTIFY_API_BASE = "https://api.spotify.com/v1";
+const spotifyTokenUrl = import.meta.env.VITE_SPOTIFY_TOKEN_URL;
+const spotifyApiBase = import.meta.env.VITE_SPOTIFY_API_BASE;
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
 
@@ -19,7 +20,7 @@ const getAccessToken = () => {
 export const getNewAccessToken = async () => {
   const base64Credentials = btoa(`${clientId}:${clientSecret}`);
   const response = await axios.post(
-    "https://accounts.spotify.com/api/token",
+    spotifyTokenUrl,
     "grant_type=client_credentials",
     {
       headers: {
@@ -33,7 +34,7 @@ export const getNewAccessToken = async () => {
 };
 
 export const axiosClient = axios.create({
-  baseURL: SPOTIFY_API_BASE,
+  baseURL: spotifyApiBase,
 });
 
 axiosClient.interceptors.request.use(
